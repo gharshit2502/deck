@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>[BRAND NAME] – Everyday Fiber (concept)</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap"
+    />
+    <style>
+      :root {
+        --bg: #f6f7f2;
+        --ink: #14231d;
+        --mut: #5b6a62;
+        --acc: #1f5c43;
+        --gold: #d9a21b;
+        --card: #ffffff;
+        --line: #d9ded3;
+        --hero: #173f2e;
+        --heroink: #f6f7f2;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0f1a15;
+          --ink: #edf1ea;
+          --mut: #9daea4;
+          --acc: #6fc79c;
+          --gold: #e8b84a;
+          --card: #17261f;
+          --line: #294136;
+          --hero: #0a120e;
+          --heroink: #edf1ea;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0f1a15;
+        --ink: #edf1ea;
+        --mut: #9daea4;
+        --acc: #6fc79c;
+        --gold: #e8b84a;
+        --card: #17261f;
+        --line: #294136;
+        --hero: #0a120e;
+        --heroink: #edf1ea;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Source Sans 3", system-ui, sans-serif;
+        font-size: clamp(16px, 1.5vw, 21px);
+        line-height: 1.5;
+        overflow: hidden;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family:
+          "Bricolage Grotesque", "Source Sans 3", system-ui, sans-serif;
+        line-height: 1.1;
+        margin: 0;
+      }
+      .deck {
+        height: 100%;
+        position: relative;
+      }
+      .slide {
+        position: absolute;
+        inset: 0;
+        padding: 6vh 7vw 10vh;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2.2vh;
+        overflow-y: auto;
+      }
+      .slide.on {
+        display: flex;
+      }
+      h2 {
+        font-size: clamp(28px, 4.2vw, 58px);
+        font-weight: 700;
+        max-width: 22ch;
+      }
+      .lead {
+        font-size: 1.15em;
+        max-width: 52ch;
+        color: var(--mut);
+        margin: 0;
+      }
+      .hero {
+        background: var(--hero);
+        color: var(--heroink);
+      }
+      .hero .lead {
+        color: var(--heroink);
+        opacity: 0.8;
+      }
+      .hero h1 {
+        font-size: clamp(38px, 7vw, 100px);
+        font-weight: 700;
+        max-width: 14ch;
+      }
+      .tag {
+        display: inline-block;
+        border: 1.5px solid var(--gold);
+        color: var(--gold);
+        padding: 0.15em 0.8em;
+        border-radius: 99px;
+        font-size: 0.85em;
+        align-self: flex-start;
+      }
+      .bars {
+        display: grid;
+        gap: 1.6vh;
+        max-width: 820px;
+        width: 100%;
+      }
+      .bar {
+        display: grid;
+        gap: 0.3em;
+      }
+      .bar b {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 500;
+      }
+      .track {
+        height: clamp(34px, 6vh, 56px);
+        background: var(--line);
+        border-radius: 6px;
+        overflow: hidden;
+        display: flex;
+      }
+      .f1 {
+        background: var(--acc);
+      }
+      .f2 {
+        background: var(--gold);
+      }
+      .f3 {
+        background: color-mix(in srgb, var(--gold) 45%, transparent);
+      }
+      .src {
+        font-size: 0.72em;
+        color: var(--mut);
+        max-width: 70ch;
+        margin: 0;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 2vw;
+        max-width: 1100px;
+        width: 100%;
+      }
+      .col {
+        border-top: 3px solid var(--acc);
+        padding-top: 1.2vh;
+      }
+      .col h3 {
+        font-size: 1.2em;
+        margin-bottom: 0.4em;
+      }
+      .col p,
+      .col li {
+        margin: 0.2em 0;
+        color: var(--mut);
+      }
+      ul {
+        padding-left: 1.1em;
+        margin: 0;
+      }
+      .step {
+        display: grid;
+        grid-template-columns: 2.2em 1fr;
+        gap: 0.4em;
+        padding: 0.7vh 0;
+        border-bottom: 1px solid var(--line);
+        max-width: 860px;
+      }
+      .step span {
+        font-family: "Bricolage Grotesque", sans-serif;
+        color: var(--gold);
+        font-weight: 700;
+      }
+      .q {
+        border-left: 4px solid var(--gold);
+        padding: 0.2em 0 0.2em 1em;
+        font-size: 1.15em;
+        max-width: 52ch;
+      }
+      nav {
+        position: fixed;
+        right: max(16px, 3vw);
+        bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        z-index: 5;
+      }
+      nav button {
+        border: 1.5px solid var(--line);
+        background: var(--card);
+        color: var(--ink);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        font-size: 1.1em;
+        cursor: pointer;
+      }
+      nav button:focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 2px;
+      }
+      #ct {
+        font-size: 0.8em;
+        color: var(--mut);
+        min-width: 3.5em;
+        text-align: center;
+      }
+      table.cmp{width:100%;max-width:1000px;border-collapse:collapse;font-size:0.95em}
+table.cmp th,table.cmp td{text-align:left;padding:.6em .8em;border-bottom:1px solid var(--line)}
+table.cmp th{color:var(--mut);font-weight:600;font-size:.85em;text-transform:uppercase}
+table.cmp tr.hl td{background:color-mix(in srgb,var(--gold) 12%,transparent);font-weight:600}
+    </style>
+  </head>
+  <body>
+    <div class="deck" id="deck">
+      <section class="slide hero on">
+        <span class="tag">Concept stage · nothing is finalised</span>
+        <h1>[BRAND NAME]</h1>
+        <p class="lead">
+          Making daily fiber an easy, tasty part of a busy day for India's
+          working professionals.
+        </p>
+      </section>
+
+      <section class="slide">
+        <h2>Stats for Indians fiber intake. </h2></br>
+        <div class="bars">
+          <div class="bar">
+            <b>Recommended (ICMR-NIN 2020): 30 g per 2,000 kcal</b>
+            <div class="track"><div class="f1" style="width: 100%"></div></div>
+          </div>
+          <div class="bar">
+            <b>Avg intake: about 15–20 g a day.</b>
+            <div class="track">
+              <div class="f2" style="width: 50%"></div>
+              <div class="f3" style="width: 17%"></div>
+            </div>
+          </div>
+        </div>
+        <p class="lead">
+          Less than 10–15% of adults meet RDA.
+        </p>
+        <!-- <p class="src">
+          Sources: ICMR-NIN, Nutrient Requirements for Indians (2020); PLOS
+          Global Public Health, 2026 (intake estimates; some sources report
+          lower, 8–16 g). Our own survey data will replace these.
+        </p> -->
+      </section>
+
+      <section class="slide">
+        <h2>Nobody says “I need fiber”. They say  </h2>
+        "I crash after lunch"</br>
+        “I am feeling bloated, sluggish, tired since morning.”
+        <!-- <h2> "I crash after lunch"</h2>
+        <h2>“I am feeling bloated, sluggish, tired since morning.”</h2> -->
+        <div class="cols">
+          <div class="col">
+            <h3>For Whom</h3>
+            <p>
+              Urban Working professionals, 24–40.</br> Age group: 25–30.
+            </p>
+          </div>
+          <div class="col">
+            <h3>Their day</h3>
+            <p>
+              Rushed meals, processed food, long sitting hours, little time to
+              plan diet.
+            </p>
+          </div>
+          <div class="col">
+            <h3>What they notice</h3>
+            <p>
+              Sluggish digestion, bloating, irregularity, afternoon tiredness.
+              </br>
+              (Fun Fact: They aren't aware of reasons.)
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <h2>Today's fixes are chores or cure !?!</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>What exists</h3>
+            <ul>
+              <li>Psyllium (isabgol) powders</li>
+              <li>Pre/probiotic tablets and blends</li>
+              <li>Sold on gut-health and relief messaging</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>Where they fall short</h3>
+            <ul>
+              <li>just a generic solution not tailored</li>
+              <li>Positioned as a fix, not a habit</li>
+              <li>Format and taste feel dated</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>The gap we see</h3>
+            <p>
+              Fiber as an easy everyday routine, with a clear dose and soln per serving.
+            </p>
+          </div>
+        </div>
+        <!-- <p class="src">
+          Landscape review under way: Plix, Fast&amp;Up, Ace Blend, Urban
+          Platter, Supply6, The Good Bug. Plix and The Good Bug reviewed so far;
+          the rest are still to be checked.
+        </p> -->
+      </section>
+
+      <section class="slide">
+        <h2>The idea: </br>fiber that fits in routine</h2>
+        <p class="q">
+          Hypothesis: busy professionals will pay for a tasty, no-effort way to
+          reach daily fiber, if it fits what they already do.
+        </p>
+        <!-- <p class="q">Yoo</p> -->
+        <div class="cols">
+          <div class="col">
+            <h3>Formats to test</h3>
+            <p>Gummies, premixes, cookies, others. </p>
+          </div>
+          <div class="col">
+            <h3>Must-haves</h3>
+            <p>
+              Real fiber dose per serving, good taste, everyday price, no
+              medicine feel.
+            </p>
+          </div>
+          <div class="col">
+            <h3>Claims</h3>
+            <p>
+              “Helps you meet daily fiber needs.” No disease or cure claims.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <h2>Validate before we build</h2>
+        <div>
+          <div class="step">
+            <span>1</span>Survey 100+ working professionals (ads + network)
+          </div>
+          <div class="step">
+            <span>2</span>Formulate with ICT professor; small-batch prototypes for feedback
+          </div>
+          <div class="step">
+            <span>3</span>Taste tests and price-willingness tests
+          </div>
+          <div class="step">
+            <span>4</span>Check FSSAI and other compliance, dose limits and label claims with experts
+          </div>
+          <div class="step">
+            <span>5</span>Choose one product; then cost and margin work
+          </div>
+        </div>
+        <p class="lead">
+          Expected timer period 3–6 months.
+        </p>
+      </section>
+
+      <section class="slide">
+        <h2>What we know, and what we don't</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Know</h3>
+            <ul>
+              <li>Fiber intake is real nutritional gap and its effects</li>
+              <li>
+                Our early consumer conversation show a potential problem
+              </li>
+              <li>
+                Existing solutions address parts of the root cause 
+              </li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>Don't know yet</h3>
+            <ul>
+              
+              <li>Consumer Willingness to pay and price point</li>
+              <li>  Best format, formulation, cost and market readiness</li>
+              <li>Exact claim limits under FSSAI and other regulatory  </li>
+        
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide hero">
+        <h2>What we'd like from you</h2>
+        <ul style="font-size: 1.2em;">
+          <li>
+            Idea Validation: feedback on the concept, format, opportunites,shortcoming and purchase.
+          </li>
+        </br>
+          <li>Connect and Access:   to manufacturers, buyers and food scientists</li></br>
+          <li>Go-To-Market Strategy, advice on channels, price point and others</li></br>
+          <li>Honest feedback, including what would make you say no</li></br>
+          
+        </ul>
+        <p class="lead">
+          We're open to pivot the product based on what we learn.
+        </p>
+      </section>
+
+
+      <!-- SLIDE: Vision / Mission / Purpose -->
+<section class="slide">
+<span class="tag">Why we exist</span>
+<h2>Not a fiber brand. A wellness brand built on fiber.</h2>
+<div class="cols">
+<div class="col"><h3>Purpose</h3><p>Wellness shouldn't be something you take. It should be something you eat.</p></div>
+<div class="col"><h3>Vision</h3><p>Become India's most trusted everyday wellness brand — built on fiber, built for the Indian gut.</p></div>
+<div class="col"><h3>Mission</h3><p>Use fiber as our founding ingredient to solve real everyday problems — digestion, energy, gut health — through food people actually want to eat, not pills.</p></div>
+</div>
+</section>
+
+<!-- SLIDE: What the consumer gets -->
+<section class="slide">
+<h2>What we deliver for the consumer</h2>
+<p class="lead">One habit, three outcomes — through food, not medicine.</p>
+<div class="cols">
+<div class="col"><h3>Digestion</h3><p>Smoother, more regular digestion from a consistent daily fiber dose.</p></div>
+<div class="col"><h3>Energy</h3><p>Steadier energy through the day — tested, not assumed, before any claim.</p></div>
+<div class="col"><h3>Gut health</h3><p>A habit that feeds the gut daily, instead of a one-time fix.</p></div>
+</div>
+</section>
+
+<!-- SLIDE: Market size -->
+<section class="slide">
+<h2>A small category, growing fast</h2>
+<div class="bars">
+<div class="bar"><b>India gut/digestive health supplements — 2025: ~$570-600M</b><div class="track"><div class="f2" style="width:37%"></div></div></div>
+<div class="bar"><b>Projected by 2033-34: ~$1.6B (11-13% CAGR)</b><div class="track"><div class="f1" style="width:100%"></div></div></div>
+</div>
+<p class="lead">Early and growing, not crowded — our addressable market, not the broader $164B India wellness industry.</p>
+<p class="src">Sources: IMARC Group, India Gut Health Supplements Market (2026); Grand View Research, India Digestive Health Supplements Market Outlook (2026).</p>
+</section>
+
+<!-- SLIDE: Competitor comparison -->
+<section class="slide">
+<h2>Where everyone else sits</h2>
+<table class="cmp">
+<tr><th>Brand</th><th>Format</th><th>₹/serving</th><th>Positioning</th></tr>
+<tr><td>Fast&amp;Up</td><td>Isabgol powder</td><td>₹44.5</td><td>Constipation relief — medicinal</td></tr>
+<tr><td>Supply6</td><td>Powder sachet</td><td>₹32-36</td><td>Debloat — modern, still supplement</td></tr>
+<tr><td>Ace Blend</td><td>Fenugreek powder/drink</td><td>₹46-65</td><td>Weight loss + gut</td></tr>
+<tr class="hl"><td>Zen Ya</td><td>Ready-to-drink fiber water</td><td>~₹37</td><td>"Food brand, not supplement"</td></tr>
+<tr><td>NatureVit</td><td>Bulk psyllium powder</td><td>~₹10-15</td><td>Commodity ingredient, no habit angle</td></tr>
+</table>
+<p class="src">Prices from brand/Amazon.in listings, Sept 2026. Zen Ya is the closest existing positioning match — our differentiation has to be sharper than "food not supplement" alone.</p>
+</section>
+    </div>
+    <nav aria-label="Slides">
+      <button id="pv" aria-label="Previous slide">&#8592;</button
+      ><span id="ct"></span
+      ><button id="nx" aria-label="Next slide">&#8594;</button>
+    </nav>
+    <script>
+      var s = [].slice.call(document.querySelectorAll(".slide")),
+        i = 0;
+      function go(n) {
+        i = Math.max(0, Math.min(s.length - 1, n));
+        s.forEach(function (e, k) {
+          e.classList.toggle("on", k === i);
+        });
+        document.getElementById("ct").textContent = i + 1 + " / " + s.length;
+        try {
+          history.replaceState(null, "", "#" + (i + 1));
+        } catch (e) {}
+      }
+      document.getElementById("pv").onclick = function () {
+        go(i - 1);
+      };
+      document.getElementById("nx").onclick = function () {
+        go(i + 1);
+      };
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown")
+          go(i + 1);
+        if (e.key === "ArrowLeft" || e.key === "PageUp") go(i - 1);
+      });
+      var x0 = null;
+      document.addEventListener("touchstart", function (e) {
+        x0 = e.touches[0].clientX;
+      });
+      document.addEventListener("touchend", function (e) {
+        if (x0 === null) return;
+        var d = e.changedTouches[0].clientX - x0;
+        if (Math.abs(d) > 50) go(i + (d < 0 ? 1 : -1));
+        x0 = null;
+      });
+      go((parseInt(location.hash.slice(1), 10) || 1) - 1);
+    </script>
+  </body>
+</html>

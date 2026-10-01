@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Gut Filling — Interactive Mind Map</title>
+    <style>
+        :root {
+            --bg: #f5f3ed;
+            --paper: #fffdf8;
+            --ink: #172019;
+            --muted: #687269;
+            --green: #173c2a;
+            --lime: #d9f36a;
+            --orange: #ff8a55;
+            --line: #d9dfd6
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font: 14px Inter, system-ui, sans-serif
+        }
+
+        .wrap {
+            max-width: 1500px;
+            margin: auto;
+            padding: 22px
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 950;
+            letter-spacing: -.06em
+        }
+
+        .logo span {
+            font-weight: 500;
+            color: var(--muted)
+        }
+
+        button {
+            font: inherit
+        }
+
+        .toggle,
+        .tabs button {
+            border: 1px solid var(--line);
+            background: var(--paper);
+            border-radius: 999px;
+            padding: 9px 14px;
+            font-weight: 800;
+            cursor: pointer
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 30px;
+            align-items: end;
+            padding: 35px 5vw
+        }
+
+        .ey {
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--muted)
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: Georgia, serif;
+            letter-spacing: -.06em;
+            line-height: .98
+        }
+
+        h1 {
+            font-size: clamp(58px, 8vw, 118px);
+            margin: 12px 0
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--muted);
+            max-width: 720px
+        }
+
+        .north {
+            background: var(--green);
+            color: #fff;
+            border-radius: 28px;
+            padding: 27px
+        }
+
+        .north small {
+            color: var(--lime);
+            font-weight: 900;
+            letter-spacing: .15em;
+            text-transform: uppercase
+        }
+
+        .north strong {
+            display: block;
+            font: 700 30px/1.05 Georgia, serif;
+            margin-top: 9px
+        }
+
+        .card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 34px;
+            overflow: hidden;
+            box-shadow: 0 18px 55px #17201912
+        }
+
+        .head {
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            gap: 20px
+        }
+
+        .head h2 {
+            font-size: 29px;
+            margin: 6px 0
+        }
+
+        .head p {
+            margin: 0;
+            color: var(--muted)
+        }
+
+        .map {
+            display: grid;
+            grid-template-columns: 1.5fr .8fr;
+            min-height: 680px
+        }
+
+        .canvas {
+            position: relative;
+            min-height: 680px;
+            background: radial-gradient(circle at 50% 50%, #d9f36a35, transparent 25%);
+            overflow: hidden
+        }
+
+        .canvas:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(#cdd4cc 1px, transparent 1px);
+            background-size: 22px 22px;
+            opacity: .35
+        }
+
+        .lines {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1
+        }
+
+        .lines line {
+            stroke: #c9d1c8;
+            stroke-width: 2
+        }
+
+        .lines line.active {
+            stroke: var(--green);
+            stroke-width: 3
+        }
+
+        .node {
+            position: absolute;
+            z-index: 2;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 1px solid #cbd3ca;
+            background: var(--paper);
+            box-shadow: 0 10px 28px #17201914;
+            cursor: pointer;
+            font-weight: 900;
+            padding: 14px;
+            transition: .18s
+        }
+
+        .node:hover {
+            transform: translate(-50%, -50%) scale(1.06)
+        }
+
+        .node.active {
+            background: var(--lime);
+            border-color: var(--green)
+        }
+
+        .center {
+            width: 172px;
+            height: 172px;
+            background: var(--green);
+            color: #fff;
+            border: 0;
+            font: 800 25px/1 Georgia, serif
+        }
+
+        .center small {
+            display: block;
+            font: 800 9px Inter, sans-serif;
+            color: #d7e6d9;
+            letter-spacing: .15em;
+            margin-top: 8px
+        }
+
+        .v {
+            left: 50%;
+            top: 14%
+        }
+
+        .p {
+            left: 80%;
+            top: 31%
+        }
+
+        .c {
+            left: 84%;
+            top: 68%
+        }
+
+        .prod {
+            left: 67%;
+            top: 88%
+        }
+
+        .pri {
+            left: 33%;
+            top: 88%
+        }
+
+        .b {
+            left: 16%;
+            top: 68%
+        }
+
+        .r {
+            left: 20%;
+            top: 31%
+        }
+
+        .mid {
+            left: 50%;
+            top: 52%
+        }
+
+        .detail {
+            padding: 30px;
+            background: #faf9f4;
+            border-left: 1px solid var(--line);
+            display: flex;
+            flex-direction: column
+        }
+
+        .detail h3 {
+            font-size: 42px;
+            margin: 10px 0 13px
+        }
+
+        .lead {
+            font-size: 15px;
+            line-height: 1.55;
+            color: #505b52
+        }
+
+        .items {
+            display: grid;
+            gap: 10px;
+            margin-top: 15px
+        }
+
+        .item {
+            padding: 14px;
+            border: 1px solid var(--line);
+            border-radius: 17px;
+            background: #fff;
+            font-size: 13px;
+            line-height: 1.45
+        }
+
+        .item b {
+            display: block;
+            margin-bottom: 3px
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin: 18px 0
+        }
+
+        .tag {
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: #edf0e9;
+            font-size: 10px;
+            font-weight: 900
+        }
+
+        .quote {
+            margin-top: auto;
+            background: var(--lime);
+            padding: 18px;
+            border-radius: 20px;
+            font: 700 21px/1.12 Georgia, serif
+        }
+
+        .tabs {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            padding: 17px 22px;
+            border-top: 1px solid var(--line)
+        }
+
+        .tabs button[aria-current=true] {
+            background: var(--green);
+            color: #fff
+        }
+
+        .below {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 22px
+        }
+
+        .mini {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 22px
+        }
+
+        .mini b {
+            font: 700 25px Georgia, serif
+        }
+
+        .mini p {
+            color: var(--muted);
+            line-height: 1.5;
+            font-size: 13px
+        }
+
+        .foot {
+            margin-top: 22px;
+            padding: 38px;
+            border-radius: 30px;
+            background: var(--green);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            gap: 25px
+        }
+
+        .foot h2 {
+            font-size: 42px;
+            margin: 0
+        }
+
+        .foot p {
+            max-width: 560px;
+            color: #d3e0d5
+        }
+
+        .note {
+            font-size: 10px;
+            color: var(--muted);
+            padding: 14px 5px
+        }
+
+        @media(max-width:1000px) {
+
+            .hero,
+            .map {
+                grid-template-columns: 1fr
+            }
+
+            .detail {
+                border-left: 0;
+                border-top: 1px solid var(--line)
+            }
+
+            .canvas {
+                min-height: 600px
+            }
+        }
+
+        @media(max-width:650px) {
+            .wrap {
+                padding: 12px
+            }
+
+            .hero {
+                padding: 28px 4vw
+            }
+
+            .node {
+                width: 90px;
+                height: 90px;
+                font-size: 10px
+            }
+
+            .center {
+                width: 130px;
+                height: 130px;
+                font-size: 19px
+            }
+
+            .canvas {
+                min-height: 540px
+            }
+
+            .below {
+                grid-template-columns: 1fr
+            }
+
+            .foot {
+                flex-direction: column
+            }
+
+            .foot h2 {
+                font-size: 34px
+            }
+
+            .head {
+                flex-direction: column
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <header class="top">
+            <div class="logo">Gut Filling <span>— by FiberUs</span></div><button class="toggle" id="mode">Night
+                mode</button>
+        </header>
+        <!-- <section class="hero">
+            <div>
+                <div class="ey"> </div>
+                <h1>Fiber, made<br>into daily habits.</h1>
+
+            </div>
+            <div class="north"><small>Brand North Star</small><strong>Make fiber the new everyday nutrition
+                    habit.</strong></div>
+        </section> -->
+        <section class="card">
+            <div class="head">
+                <div>
+                    <div class="ey">The ecosystem</div>
+                    <h2>Click a branch. Build the story.</h2>
+                    <p>Seven connected decisions make up the brand.</p>
+                </div>
+            </div>
+            <div class="map">
+                <div class="canvas">
+                     
+                    <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <line data-l="vision" x1="50" y1="52" x2="50" y2="14" />
+                        <line data-l="problem" x1="50" y1="52" x2="80" y2="31" />
+                        <line data-l="consumer" x1="50" y1="52" x2="84" y2="68" />
+                        <line data-l="product" x1="50" y1="52" x2="67" y2="88" />
+                        <line data-l="priorities" x1="50" y1="52" x2="33" y2="88" />
+                        <line data-l="brand" x1="50" y1="52" x2="16" y2="68" />
+                        <line data-l="roadmap" x1="50" y1="52" x2="20" y2="31" />
+                    </svg>
+
+                    <button class="node v" data-k="vision">Vision & Mission</button>
+                    <button class="node p" data-k="problem">The Problem</button>
+                    <button class="node c" data-k="consumer">Who It's For</button>
+                    <button class="node prod" data-k="product">Products</button>
+                    <button class="node pri" data-k="priorities">Priorities</button>
+                    <button class="node b" data-k="brand">Brand Identity</button>
+                    <button class="node r" data-k="roadmap">Roadmap</button>
+                    <button class="node center mid" data-k="core">GUT FILLING</button>
+                </div>
+                <aside class="detail">
+                    <div class="ey" id="ey">Brand Core</div>
+                    <h3 id="head">Gut Filling</h3>
+                    <p class="lead" id="lead"></p>
+                    <div class="items" id="items"></div>
+                    <div class="tags" id="tags"></div>
+                    <div class="quote" id="quote"></div>
+                </aside>
+                <div class="tabs" id="tabs"></div>
+            </div>
+            <!-- <div class="tabs" id="tabs"></div> -->
+        </section>
+        <section class="below">
+            <article class="mini">
+                <div class="ey">01 / Category shift</div><b>Old → New</b>
+                <p>From “fiber is something I take when I have a digestive problem” to “fiber is something I include
+                    every day.”</p>
+            </article>
+            <article class="mini">
+                <div class="ey">02 / Brand principle</div><b>Science × Enjoyment</b>
+                <p>Make nutrition enjoyable without making the science unserious. Credible enough to trust; fun enough
+                    to reach for.</p>
+            </article>
+            <article class="mini">
+                <div class="ey">03 / Strategic ambition</div><b>Build the habit</b>
+                <p>The format can change. The brand owns the everyday fiber need.</p>
+            </article>
+        </section>
+        <footer class="foot">
+            <h2>Fiber shouldn't<br>be complicated.</h2>
+            <p>Gut Filling challenges the outdated way fiber is understood and consumed while keeping evidence,
+                convenience, taste and modern FMCG experience at the center.</p>
+        </footer>
+        <div class="note">Built from the uploaded Gut Filling / FiberUs idea, problem, consumer, brand, product and
+            roadmap materials. Product quantities, health claims, formulation and regulatory positioning remain subject
+            to validation.
+        </div>
+    </main>
+    <script>
+        const D = {
+            core: {
+                e: 'Brand Core', h: 'Gut Filling', l: 'A modern functional-nutrition brand making everyday fiber simple, enjoyable and convenient.',
+                i: [['Big ambition', 'Become India’s leading everyday fiber and gut-health brand.'], ['Core idea', 'Fiber made into modern FMCG.'],
+                ['Belief', 'Fiber should be part of everyday nutrition, not something people reach for only after a problem.']], q: "Fiber shouldn't be complicated.",
+                t: ['Fiber first', 'Everyday', 'Functional nutrition', 'Modern FMCG']
+            }, vision: {
+                e: 'Vision / Mission / Purpose', h: 'Make fiber an everyday habit.',
+                l: 'Change how people think about fiber and make adequate fiber intake feel natural.', i: [['Vision', 'Make fiber an effortless and enjoyable part of everyday wellness for every Indian.'],
+                ['Mission', 'Make getting enough fiber simple, enjoyable and convenient through modern functional nutrition.'], 
+                ['Purpose', 'Move fiber from a complicated, boring or medicinal necessity into an easy, enjoyable part of everyday wellness.']],
+                q: 'Make nutrition enjoyable without making the science unserious.', t: ['Simple', 'Enjoyable', 'Convenient', 'Evidence-led']
+            }, problem: {
+                e: 'The Problem', h: 'Fiber has an image problem.',
+                l: 'The opportunity is bigger than awareness: the category needs a better mental model and a better consumer experience.',
+                i: [['Old mental model', '“Fiber is something I take when I have a digestive problem.”'], ['Old category', 'Medicinal, herbal, boring, complicated and reactive.'], ['Awareness gap', 'People do not think about daily fiber the way they increasingly think about protein.'],
+                ['New mental model', '“Fiber is something I include every day.”']],
+                q: 'Turn fiber from a health chore into an everyday habit.',
+                t: ['Awareness', 'Image', 'Desirability', 'Convenience']
+            }, consumer: {
+                e: "Who It's For", h: 'Mumbai first. One clear consumer.',
+                l: 'Initial focus: working professionals aged 24–40.',
+                i: [['Primary consumer', 'Busy working professionals with sedentary lifestyles and inconsistent diets.'],
+                ['Reality', 'Long hours, low fruit/vegetable intake and limited tolerance for friction.'],
+                ['What they want', 'Convenience, better wellness and products that do not feel medicinal.'],
+                ['Future segment', 'Families with children and other audiences can be explored after the first product and unit economics are validated.']], q: 'Help me get enough fiber without making my daily life more complicated.', t: ['24–40', 'Working professionals', 'Mumbai first', 'Convenience']
+            }, brand: {
+                e: 'Brand Identity', h: 'The challenger with a friendly face.', l: 'Credible enough to trust. Fun enough to reach for.',
+                i: [['The Challenger', 'Questions why fiber has to be boring, medicinal or something you only reach for once a problem starts.'], ['The Friend', 'Plain language, no unnecessary jargon, no lecturing and no fear-based messaging.'],
+                ['The Optimist', 'Makes the daily habit feel small, achievable and positive.'], ['Balance', '~30% clinical credibility / ~70% everyday appeal; ~40% premium cues / ~60% mass accessibility.']], q: 'Modern FMCG + the credibility of a nutrition company.', t: ['Challenger', 'Friend', 'Optimist', 'Modern', 'Bold', 'Evidence-led']
+            }, product: {
+                e: 'Product System', h: "The format can change. The problem doesn't.", l: 'Gut Filling is not a gummy company. It is a fiber-first brand delivered through formats people actually want.',
+                i: [['Formats', 'Gummies, premixes, cookies, jelly, powders, bars, beverages and future functional-food formats.'],
+                ['Core rule', 'Fiber remains the strategic hero; supporting ingredients should serve a clear, validated proposition.'], ['Experience', 'Taste, texture, convenience and visual appeal are part of the product—not afterthoughts.'], ['Product filter', 'Meaningful fiber contribution + enjoyable + convenient + substantiated + unmistakably Gut Filling.']],
+                q: 'The format is not the brand. The everyday fiber need is.', t: ['Gummies', 'Premix', 'Cookies', 'Jelly', 'Powder', 'Future formats']
+            }, priorities: {
+                e: 'Strategic Priorities', h: 'Build the habit. Then build the category.', l: 'The first job is not to launch everything. It is to prove that people want a better everyday fiber experience.', i: [['01 — Make fiber relevant', 'Increase awareness and make daily fiber understandable.'], ['02 — Make fiber desirable', 'Win on taste, texture, format and visual appeal.'], ['03 — Make fiber convenient', 'Fit naturally into busy routines.'], ['04 — Build trust', 'Evidence before claims and clear communication.'], 
+                ['05 — Build habit', 'Move from one-time problem solving to regular consumption.'], 
+                ['06 — Build the category', 'Own the association: “I need more fiber → Gut Filling.”']],
+                q: 'The goal is not another health product. The goal is a new everyday habit.', t: ['Relevance', 'Desirability', 'Convenience', 'Trust', 'Habit', 'Category']
+            },
+            roadmap: {
+                e: 'Roadmap & Ask', h: 'Validate before you scale.', l: 'Bootstrap-style experimentation: small-batch prototypes and consumer testing before significant spend.', i: [['Now — Validate', 'Talk to target consumers in Mumbai and confirm the fiber gap and format preference.'], ['Next — Formulate', 'Develop small-batch prototypes with R&D; prioritize taste, dosage and stability.'], ['Then — Test', 'Use consumer testing and evidence to narrow down the first launch SKU.'], ['Later — Commercialize', 'Regulatory work, packaging and a focused Mumbai go-to-market.'],
+                ['Ask', 'Pressure-test the plan: consumer, science or economics evidence should be allowed to change the view.']], q: 'Evidence, not assumption.', t: ['Validate', 'Formulate', 'Test', 'Commercialize']
+            }
+        };
+        const keys = ['core', 'vision', 'problem', 'consumer', 'brand', 'product', 'priorities', 'roadmap'];
+        const labels = { core: 'Core', vision: 'Vision', problem: 'Problem', consumer: 'Consumer', brand: 'Brand', product: 'Products', priorities: 'Priorities', roadmap: 'Roadmap' };
+        const tabs = document.getElementById('tabs'); keys.forEach(k => { let b = document.createElement('button'); b.type = 'button'; b.dataset.k = k; b.textContent = labels[k]; tabs.appendChild(b) });
+        function render(k) {
+            let d = D[k] || D.core;
+            document.getElementById('ey').textContent = d.e;
+            document.getElementById('head').textContent = d.h;
+            document.getElementById('lead').textContent = d.l;
+            document.getElementById('items').innerHTML = d.i.map(x => `<div class="item"><b>${x[0]}</b>${x[1]}</div>`).join('');
+            document.getElementById('tags').innerHTML = d.t.map(x => `<span class="tag">${x}</span>`).join('');
+            document.getElementById('quote').textContent = d.q;
+            document.querySelectorAll('.node').forEach(n => n.classList.toggle('active', n.dataset.k === k));
+            document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-current', b.dataset.k === k));
+            document.querySelectorAll('.lines line').forEach(x => x.classList.toggle('active', x.dataset.l === k))
+        }
+        document.addEventListener('click', e => { let n = e.target.closest('[data-k]'); if (n) render(n.dataset.k) });
+        document.addEventListener('keydown', e => {
+            if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return; let k =
+                document.querySelector('.node.active')?.dataset.k || 'core', i = keys.indexOf(k); render(keys[(i + (e.key === 'ArrowRight' ? 1 : -1) + keys.length) % keys.length])
+        });
+        document.getElementById('mode').onclick = () => {
+            document.body.classList.toggle('night'); let n =
+                document.body.classList.contains('night'); document.documentElement.style.setProperty('--bg', n ? '#0e1510' : '#f5f3ed');
+            document.documentElement.style.setProperty('--paper', n ? '#151e17' : '#fffdf8');
+            document.documentElement.style.setProperty('--ink', n ? '#eef5ee' : '#172019');
+            document.documentElement.style.setProperty('--muted', n ? '#a9b6aa' : '#687269');
+            document.documentElement.style.setProperty('--line', n ? '#2b3930' : '#d9dfd6');
+            document.getElementById('mode').textContent = n ? 'Day mode' : 'Night mode'
+        }; render('core');
+    </script>
+</body>
+
+</html>
