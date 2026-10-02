@@ -232,7 +232,190 @@
         min-width: 3.5em;
         text-align: center;
       }
-      table.cmp{width:100%;max-width:1000px;border-collapse:collapse;font-size:0.95em}
+      /* PRODUCT DEMO */
+
+.product-demo {
+  --product-accent: #EDA92E;
+}
+
+.sku-tabs {
+  display: flex;
+  gap: 10px;
+  margin-top: 26px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.sku-tab {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink-soft);
+  padding: 11px 18px;
+  border-radius: 100px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  transition: 0.25s ease;
+}
+
+.sku-tab:hover {
+  border-color: var(--ink);
+}
+
+.sku-tab.active {
+  /* background: var(--ink); */
+  color: var(--cream);
+  border-color: var(--ink);
+}
+
+.sku-tab .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.sku-tab:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.mango-dot { background: #EDA92E; }
+.coffee-dot { background: #6B4A33; }
+.kiwi-dot { background: #6F8F35; }
+
+.sku-stage {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  min-height: 390px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.sku-img {
+  background: var(--cream-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 390px;
+}
+
+.sku-img img {
+  width: 100%;
+  height: 100%;
+  max-height: 480px;
+  object-fit: contain;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+.sku-copy {
+  padding: 34px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sku-copy .role {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--product-accent);
+  margin-bottom: 12px;
+}
+
+.sku-copy h3 {
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  line-height: 1.15;
+  margin-bottom: 14px;
+  max-width: 520px;
+}
+
+.sku-copy p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 520px;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 26px 0;
+}
+
+.stat {
+  border-left: 2px solid var(--product-accent);
+  padding-left: 12px;
+}
+
+.stat b {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
+.stat span {
+  display: block;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  margin-top: 5px;
+}
+
+.product-note {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.product-note b {
+  color: var(--ink);
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 14px;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 760px) {
+  .sku-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .sku-img {
+    min-height: 280px;
+  }
+
+  .sku-copy {
+    padding: 24px 20px;
+  }
+
+  .stat-row {
+    gap: 8px;
+  }
+
+  .sku-tab {
+    font-size: 0.75rem;
+    padding: 9px 12px;
+  }
+}
+table.cmp{width:100%;max-width:1000px;border-collapse:collapse;font-size:0.95em}
 table.cmp th,table.cmp td{text-align:left;padding:.6em .8em;border-bottom:1px solid var(--line)}
 table.cmp th{color:var(--mut);font-weight:600;font-size:.85em;text-transform:uppercase}
 table.cmp tr.hl td{background:color-mix(in srgb,var(--gold) 12%,transparent);font-weight:600}
@@ -447,6 +630,101 @@ table.cmp tr.hl td{background:color-mix(in srgb,var(--gold) 12%,transparent);fon
 </div>
 </section>
 
+<section class="slide">
+  <!-- PANEL: PRODUCT DEMO -->
+<div class="panel" id="panel-products">
+  <div class="panel-inner product-demo">
+
+    <div class="eyebrow">THE PRODUCT EXPERIENCE</div>
+    <h2>product form ideation</h2>
+    <!-- <p class="lede">
+      Functional nutrition designed to fit into routines people already have.
+    </p> -->
+
+    <!-- PRODUCT TABS -->
+    <div class="sku-tabs" id="skuTabs">
+
+      <button class="sku-tab active" data-sku="mango">
+        <span class="dot mango-dot"></span>
+        Gut Health · Mango
+      </button>
+
+      <button class="sku-tab" data-sku="coffee">
+        <span class="dot coffee-dot"></span>
+        Focus + Energy · Coffee
+      </button>
+
+      <button class="sku-tab" data-sku="kiwi">
+        <span class="dot kiwi-dot"></span>
+        Fiber Gummies · Kiwi
+      </button>
+
+    </div>
+
+    <!-- PRODUCT DISPLAY -->
+    <div class="sku-stage" id="skuStage">
+
+      <div class="sku-img">
+        <img
+          id="skuImg"
+          src="assets/mango-premix.png"
+          alt="Gut Filling Mango Daily Gut Health Premix"
+        >
+      </div>
+
+      <div class="sku-copy">
+
+        <div class="role" id="skuRole">
+          Gut health · daily fiber
+        </div>
+
+        <h3 id="skuTitle">
+          Daily Gut Health Premix — Mango
+        </h3>
+
+        <p id="skuDesc">
+          A 5 g single-serve sachet built to sit inside an existing
+          habit — mixed into water, milk or a shake once a day.
+        </p>
+
+        <div class="stat-row" id="skuStats">
+
+          <div class="stat">
+            <b>5 g</b>
+            <span>Fiber per sachet</span>
+          </div>
+
+          <div class="stat">
+            <b>Pre + Pro</b>
+            <span>Postbiotics + enzymes</span>
+          </div>
+
+          <div class="stat">
+            <b>5B CFU</b>
+            <span>Probiotic count</span>
+          </div>
+
+        </div>
+
+        <div class="product-note" id="skuNote">
+          <b>Note:</b> Dosage, CFU counts and functional claims shown
+          are formulation targets from the creative brief, not
+          confirmed specifications. Pending R&D validation and
+          FSSAI review.
+        </div>
+
+      </div>
+    </div>
+
+    <div class="product-footer">
+      <span>GUT FILLING</span>
+      <span>REAL NUTRITION. REAL PROGRESS.</span>
+    </div>
+
+  </div>
+</div>
+</section>
+
 <!-- SLIDE: What the consumer gets -->
 <section class="slide">
 <h2>What we deliver for the consumer</h2>
@@ -517,6 +795,7 @@ table.cmp tr.hl td{background:color-mix(in srgb,var(--gold) 12%,transparent);fon
       ><button id="nx" aria-label="Next slide">&#8594;</button>
     </nav>
     <script>
+      
       var s = [].slice.call(document.querySelectorAll(".slide")),
         i = 0;
       function go(n) {
@@ -551,6 +830,115 @@ table.cmp tr.hl td{background:color-mix(in srgb,var(--gold) 12%,transparent);fon
         x0 = null;
       });
       go((parseInt(location.hash.slice(1), 10) || 1) - 1);
+      const products = {
+  mango: {
+    role: "Gut health · daily fiber",
+
+    title: "Daily Gut Health Premix — Mango",
+
+    desc: "A 5 g single-serve sachet built to sit inside an existing habit — mixed into water, milk or a shake once a day.",
+
+    image: "assets/mango-premix.png",
+
+    alt: "Gut Filling Mango Daily Gut Health Premix",
+
+    accent: "#EDA92E",
+
+    stats: [
+      ["5 g", "Fiber per sachet"],
+      ["Pre + Pro", "Postbiotics + enzymes"],
+      ["5B CFU", "Probiotic count"]
+    ],
+
+    note: "Dosage, CFU counts and functional claims shown are formulation targets from the creative brief, not confirmed specifications — pending R&D validation and FSSAI review before anything goes on real packaging."
+  },
+
+  coffee: {
+    role: "Focus + energy · daily fiber",
+
+    title: "Focus + Energy Premix — Coffee",
+
+    desc: "A 10 g sachet built for the mid-morning slump — fiber and probiotics riding on a coffee habit people already have.",
+
+    image: "assets/coffee-premix.png",
+
+    alt: "Gut Filling Coffee Focus and Energy Premix",
+
+    accent: "#6B4A33",
+
+    stats: [
+      ["6B CFU", "Probiotic count"],
+      ["Caffeine", "+ L-Theanine, taurine"],
+      ["+ Vitamins", "D3, K2, B12, C"]
+    ],
+
+    note: "Ingredient quantities, dosage, energy-duration claims and functional benefits are formulation targets pending R&D validation and FSSAI review."
+  },
+
+  kiwi: {
+    role: "Everyday fiber · on the go",
+
+    title: "Fiber Gummies — Kiwi",
+
+    desc: "This takes 30 seconds and your gut will thank you. No mixing, no prep — fiber that fits in a bag or a desk drawer.",
+
+    image: "assets/kiwi-gummies.png",
+
+    alt: "Gut Filling Kiwi Fiber Gummies",
+
+    accent: "#6F8F35",
+
+    stats: [
+      ["5 g", "Fiber per serving"],
+      ["5B CFU", "Probiotic count"],
+      ["Natural", "Sweetener, no refined sugar"]
+    ],
+
+    note: "Fiber quantity, probiotic count, sweetener composition and functional claims are proposed formulation targets pending R&D validation and FSSAI review."
+  }
+};
+
+const tabs = document.querySelectorAll(".sku-tab");
+const stage = document.querySelector(".product-demo");
+
+function showProduct(sku) {
+  const product = products[sku];
+
+  if (!product) return;
+
+  stage.style.setProperty("--product-accent", product.accent);
+
+  document.getElementById("skuRole").textContent = product.role;
+  document.getElementById("skuTitle").textContent = product.title;
+  document.getElementById("skuDesc").textContent = product.desc;
+  document.getElementById("skuNote").innerHTML =
+    `<b>Note:</b> ${product.note}`;
+
+  const img = document.getElementById("skuImg");
+  img.src = product.image;
+  img.alt = product.alt;
+
+  document.getElementById("skuStats").innerHTML =
+    product.stats.map(([value, label]) => `
+      <div class="stat">
+        <b>${value}</b>
+        <span>${label}</span>
+      </div>
+    `).join("");
+
+  tabs.forEach(tab => {
+    const active = tab.dataset.sku === sku;
+
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-pressed", active);
+  });
+}
+
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    showProduct(tab.dataset.sku);
+  });
+});
     </script>
   </body>
 </html>
