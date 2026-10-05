@@ -266,6 +266,9 @@
   align-items: center;
   gap: 9px;
   transition: 0.25s ease;
+   flex: 0 0 auto;
+  white-space: nowrap;
+  min-height: 42px;
 }
 
 .sku-tab:hover {
@@ -714,7 +717,7 @@
   to   { transform: scaleX(1); opacity: 1; }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 660px) {
   .sku-stage {
     grid-template-columns: 1fr;
   }
@@ -730,10 +733,25 @@
   .stat-row {
     gap: 8px;
   }
+.sku-tabs {
+    width: calc(100vw - 40px);
+    max-width: 100%;
+    gap: 8px;
 
+    /* Important */
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding-bottom: 8px;
+  }
   .sku-tab {
     font-size: 0.75rem;
     padding: 9px 12px;
+    flex: 0 0 auto;
+    padding: 10px 14px;
+    font-size: 12px;
+    white-space: nowrap;
+  
   }
 }
 table.cmp{width:100%;max-width:1000px;border-collapse:collapse;font-size:0.95em}
