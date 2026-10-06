@@ -767,6 +767,42 @@ table.cmp{width:100%;max-width:1000px;border-collapse:collapse;font-size:0.95em}
 table.cmp th,table.cmp td{text-align:left;padding:.6em .8em;border-bottom:1px solid var(--line)}
 table.cmp th{color:var(--mut);font-weight:600;font-size:.85em;text-transform:uppercase}
 table.cmp tr.hl td{background:color-mix(in srgb,var(--gold) 12%,transparent);font-weight:600}
+
+@media print {
+  /* Show every slide when printing */
+  .slide {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* Don't hide slides that aren't currently active */
+  .slide:not(.on) {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* Hide controls/buttons while printing */
+  button,
+  .controls,
+  .navigation,
+  .nav,
+  .progress {
+    display: none !important;
+  }
+
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
     </style>
   </head>
   <body>
